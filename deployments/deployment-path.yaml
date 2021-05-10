@@ -64,7 +64,7 @@ node_types:
         type: boolean
         description: "If set to False the deployment will not wait for the VM to get an IP."
         default: true
-        tags: []
+        tags: [user_input]
       Auto Delete:
         type: boolean
         description: "Enables automatic deletion of an app during reservation Teardown."
@@ -74,16 +74,16 @@ node_types:
         type: boolean
         description: "Enables the automatic execution of the Autoload command during reservation Setup."
         default: true
-        tags: []
+        tags: [user_input]
       IP Regex:
         type: string
         description: "Filters the IP that can be selected as an App's address."
-        tags: []
+        tags: [user_input]
       Refresh IP Timeout:
         type: integer
         description: "Timeout for waiting when obtaining IP address (in seconds)"
         default: 600
-        tags: []
+        tags: [user_input]
       Customization Spec:
         type: string
         description: "(Only applies to Windows and Linux VMs) Name of the vSphere VM customization specification to apply on the deployed VM"
@@ -168,7 +168,7 @@ node_types:
         type: boolean
         description: "If set to False the deployment will not wait for the VM to get an IP."
         default: true
-        tags: []
+        tags: [user_input]
       Auto Delete:
         type: boolean
         description: "Enables automatic deletion of an app during reservation Teardown."
@@ -178,16 +178,16 @@ node_types:
         type: boolean
         description: "Enables the automatic execution of the Autoload command during reservation Setup."
         default: true
-        tags: []
+        tags: [user_input]
       IP Regex:
         type: string
         description: "Filters the IP that can be selected as an App's address."
-        tags: []
+        tags: [user_input]
       Refresh IP Timeout:
         type: integer
         description: "Timeout for waiting when obtaining IP address (in seconds)"
         default: 600
-        tags: []
+        tags: [user_input]
       Customization Spec:
         type: string
         description: "(Only applies to Windows and Linux VMs) Name of the vSphere VM customization specification to apply on the deployed VM"
@@ -278,7 +278,7 @@ node_types:
         type: boolean
         description: "If set to False the deployment will not wait for the VM to get an IP."
         default: true
-        tags: []
+        tags: [user_input]
       Auto Delete:
         type: boolean
         description: "Enables automatic deletion of an app during reservation Teardown."
@@ -288,16 +288,16 @@ node_types:
         type: boolean
         description: "Enables the automatic execution of the Autoload command during reservation Setup."
         default: true
-        tags: []
+        tags: [user_input]
       IP Regex:
         type: string
         description: "Filters the IP that can be selected as an App's address."
-        tags: []
+        tags: [user_input]
       Refresh IP Timeout:
         type: integer
         description: "Timeout for waiting when obtaining IP address (in seconds)"
         default: 600
-        tags: []
+        tags: [user_input]
       Customization Spec:
         type: string
         description: "(Only applies to Windows and Linux VMs) Name of the vSphere VM customization specification to apply on the deployed VM"
@@ -393,7 +393,7 @@ node_types:
         type: boolean
         description: "If set to False the deployment will not wait for the VM to get an IP."
         default: true
-        tags: []
+        tags: [user_input]
       Auto Delete:
         type: boolean
         description: "Enables automatic deletion of an app during reservation Teardown."
@@ -403,16 +403,16 @@ node_types:
         type: boolean
         description: "Enables the automatic execution of the Autoload command during reservation Setup."
         default: true
-        tags: []
+        tags: [user_input]
       IP Regex:
         type: string
         description: "Filters the IP that can be selected as an App's address."
-        tags: []
+        tags: [user_input]
       Refresh IP Timeout:
         type: integer
         description: "Timeout for waiting when obtaining IP address (in seconds)"
         default: 600
-        tags: []
+        tags: [user_input]
       CPU:
         type: string
         description: "The number of CPUs to be configured on the VM"

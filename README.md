@@ -2,6 +2,13 @@
 
 # **VMware vCenter Cloud Provider Shell 2G**
 
+# Field Change Log
+- Updated the following deployment attributes
+  - Wait for IP
+  - IP Regex
+  - Autoload
+  - Refresh IP Timeout
+
 Release date: November 2020
 
 `Shell version: 1.0.0`
