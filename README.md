@@ -2,16 +2,17 @@
 
 # **VMware vCenter Cloud Provider Shell 2G**
 
-# Field Change Log
-- Updated the following deployment attributes
+## Field Change Log
+- Updated the following deployment attributes to user input
   - Wait for IP
   - IP Regex
   - Autoload
   - Refresh IP Timeout
 
-Release date: November 2020
+# Release Info
+Release date: May 2021
 
-`Shell version: 1.0.0`
+`Shell version: 3.3.0`
 
 `Document version: 1.0`
 
@@ -33,12 +34,13 @@ A shell integrates a device model, application or other technology with CloudShe
 CloudShell Cloud Providers shells provide L2 or L3 connectivity between resources and/or Apps.
 
 ### VMware vCenter Cloud Provider Shell 2G
-VMware vCenter Cloud Provider Shell 2G provides you with apps deployment and management capabilities. 
+VMware vCenter Cloud Provider Shell 2G provides you with app deployment and management capabilities. 
+These include support for Python 3, vCenter 7 and VM Customization Specifications, standard vSwitch App connectivity, ability to connect vCenter Apps to existing port groups, ability to scale up deployed Apps in an active sandbox and more. For details, see the [Key online help improvements](https://help.quali.com/Online%20Help/2021.2/portal/Content/CSP/CSP-Versn-Hstry.htm#Key) section in the 2021.2 online help. 
 
 For more information on the device, see the vendor's official product documentation.
 
 ### Standard version
-VMware vCenter Cloud Provider Shell 2G is based on the Cloud Provider Standard version **1.0.0**.
+VMware vCenter Cloud Provider Shell 2G is based on the Cloud Provider Standard version **1.1.0**.
 
 For detailed information about the shell’s structure and attributes, see the [Cloud Provider Standard](https://github.com/QualiSystems/cloudshell-standards/blob/master/Documentation/cloud_provider_standard.md) in GitHub.
 
@@ -46,9 +48,11 @@ For detailed information about the shell’s structure and attributes, see the [
 
 Release: VMware vCenter Cloud Provider Shell 2G
 
-▪ CloudShell version **9.3 and above**
+▪ CloudShell version **2020.2 and above**
 
-**Note:** If your CloudShell version does not support this shell, you should consider upgrading to a later version of CloudShell or contact customer support. 
+**Notes:** 
+* **Save/Restore Sandbox** support for vCenter Shell 2G is available in ClousdShell **2021.1 P1 and above**.
+* If your CloudShell version does not support this shell, you should consider upgrading to a later version of CloudShell or contact customer support.
 
 ### Data Model
 
@@ -159,14 +163,17 @@ You can also modify existing resources, see [Managing Resources in the Inventory
   4. Click **Create**.
   
   5. In the **Resource** dialog box, enter the following attributes with data from step 1:
-        - **User** - Paste here your vCenter User
-        - **Password** - Paste here your vCenter User Password
-        - **Default Datacenter** - Paste here default Datacenter
-        - **Default dvSwitch** - Paste here default dvSwitch which will be used for the connectivity
-        - **Holding Network** - Paste here default network that will be configured when disconnecting from another network
-        - **VM Cluster** - Paste here vCenter cluster or host that will be used when deploying a VM
-        - **VM Storage** - Paste here vCenter storage in which the VMs will be created
-        - **VM Location** - Paste here the full path to the folder within vCenter in which the VM will be created
+
+  |File name|Description|
+  |:---|:---|
+  |User|Paste here your vCenter User|
+  |Password|Paste here your vCenter User Password|
+  |Default Datacenter|Paste here default Datacenter|
+  |Default dvSwitch|Paste here default dvSwitch which will be used for the connectivity|
+  |Holding Network|Paste here default network that will be configured when disconnecting from another network|
+  |VM Cluster|Paste here vCenter cluster or host that will be used when deploying a VM|
+  |VM Storage|Paste here vCenter storage in which the VMs will be created|
+  |VM Location|Paste here the full path to the folder within vCenter in which the VM will be created|
   
   6. Click **Continue**.
 
@@ -192,26 +199,91 @@ In online mode, the execution server automatically downloads and extracts the ap
 
 # Typical Workflows
 
-**Workflow 1 - _Create App Template_** 
-1. Log into CloudShell Portal as administrator.
+## **Workflow 1 - Create App Template** 
+  1. Log into CloudShell Portal as administrator.
 
-2. Click __Manage > Apps__ and add a new App template.
+  2. Click __Manage > Apps__ and add a new App template.
 
-3. Select the appropriate deployment type.<br><br>Note that this shell's deployment types all end with "2G" to indicate that they belong to a 2nd Gen shell. For example: "vCenter VM From Template 2G".
+  3. Select the appropriate deployment type.<br><br>Note that this shell's deployment types all end with "2G" to indicate that they belong to a 2nd Gen shell. For example: "vCenter VM From Template 2G".
 
-4. Sepecify a __Name__ and click __Create__.
+  4. Specify a __Name__ and click __Create__.
 
-6. In the __General__ tab, select the appropriate domain categories.<br><br>A domain category is a service category that is used to expose the App to specific CloudShell domains. By default, the __Applications__ category is associated to the Global domain. You can optionally create additional service categories for other domains or add the desired domains to the __Applications__ category. Service categories are managed in the __Manage>Categories>Service Categories__ page.
+  6. In the __General__ tab, select the appropriate domain categories.<br><br>A domain category is a service category that is used to expose the App to specific CloudShell domains. By default, the __Applications__ category is associated to the Global domain. You can optionally create additional service categories for other domains or add the desired domains to the __Applications__ category. Service categories are managed in the __Manage>Categories>Service Categories__ page.
 
-7. Configure the App's __Deployment Path__ - select the cloud provider resource and fill in the settings.<br><br>See the attribute tooltips for details.
+  7. In the App's __Deployment Path__ tab, enter the following attributes:
+  
+__Deployment type-specific attributes:__
 
-8. In the __Configuration Management__ tab, specify the configuration management script or Ansible playbook to run on the VM.
+|File name|Description|
+|:---|:---|
+|vCenter Template|Path to the vCenter template to use in the virtual machine's creation. Path is relative to the datacenter and must include the template name, for example: *My-Templates/Template1*|
+|vCenter VM|Full path to the VM (or VM containing the snapshot for linked clones) that will be used to clone a new VM, relative to the datacenter. For example: *My-Folder/My-VM*|
+|vCenter Snapshot|Full path to the virtual machine snapshot that will be used to clone a new VM. This snapshot should be associated with the VM defined in the vCenter VM input. For example: *Snapshot1/Snapshot2*|
+|vCenter Image|Full path to the vCenter OVF image file, relative to the datacenter (for example: *My-OVF-Images/Image.ovf*). Path must be accessible to all execution servers. OVF tool must be installed on all execution servers.|
+|vCenter Image Arguments|(Optional) vCenter-specific arguments to use when deploying the virtual machine. Example for OVF: ```--allowExtraConfig --prop:Hostname=ASAvtest --prop:HARole=Standalone --prop:SSHEnable=True --prop:DHCP=True --net:Management0-0='Office LAN 41' --net:GigabitEthernet0-0='VLAN_access_101'```|
 
-9. In the __App Resource__ tab, optionally select the shell that defines the deployed App's behavior in CloudShell (e.g. which automation commands it includes). <br><br>You can also specify the deployed App's __Username__ and __Password__. CloudShell will set these credentials during the VM's deployment.
+__Common attributes:__
 
-10. You can add additional deployment paths by clicking the link in the bottom left corner of the dialog box.
+|File name|Description|
+|:---|:---|
+|Cloud Provider|Cloud provider resource to use|
+|Customization Spec|Name of the vSphere VM Customization Specification to apply to the App's VM. <br>**Notes:** If **Customization Spec** is specified, the value specified in the **Hostname** attribute will be used. If **Customization Spec** is not specified, a new one will be created for the VM. For Windows VMs, make sure to specify a password in the App resource page.|
+|Private IP|(Only applies to Windows and Linux VMs) The private static IP to set on the first vNIC of the VM. If there's a default gateway, specify it after the private IP. For example: "192.168.4.124:80.114.1.87" where 80.114.1.87 is the default gateway<br>**Notes**:<br>  - If there is no gateway, the .1 IP of the same subnet will be used as the gateway. So, for private IP "192.168.4.124", gateway "192.168.4.1" will be used. <br>  - It is also possible to provide a subnet mask here. For example: "192.168.4.124/24:80.114.1.87"<br>  - If **Customization Spec** is specified, the value specified in the **Private IP** attribute will be used.<br>  - If **Customization Spec** is not specified, a new one will be created for the VM. For Windows VMs, make sure to specify a **Password** in the App resource page.|
+|CPU|Number of CPU core s to configure on the VM|
+|RAM|Amount of RAM (GB) to configure on the VM|
+|HDD|Allows to add/edit hard disk size to the VM. The syntax is semi-colon separated disk pairs 'Hard Disk Label: Disk Size (GB)'. For example: 'Hard Disk 1:100;Hard Disk 2:200'. Short-hand format is also valid: '1:100;2:200'.<br>__Note:__ In vCenter 2G Shell versions 2.0.0 and 2.2.0, the HDD attribute in the App's deployment types was incorrectly named HHD. Upgrading to a later version will not remove the attribute, so if you're using or have used one of these versions in CloudShell, please make sure to fix this issue, as explained in the Renaming HHD attribute to HDD section.|
 
-11. Click __Done__.
+  8. In the __Configuration Management__ tab, specify the configuration management script or Ansible playbook to run on the VM.
+
+  9. In the __App Resource__ tab, optionally select the shell that defines the deployed App's behavior in CloudShell (e.g. which automation commands it includes). <br><br>You can also specify the deployed App's __Username__ and __Password__. CloudShell will set these credentials during the VM's deployment.
+
+  10. You can add additional deployment paths by clicking the link in the bottom left corner of the dialog box.
+
+  11. Click __Done__.
+
+## Workflow 2 - Rename HHD attribute to HDD
+
+When using vCenter 2G Shell version 2.0.0 and 2.2.0, the App deployment types include an attribute that is incorrectly named "HHD" instead of "HDD". The below procedure explains how to fix this issue, which is done in CloudShell’s SQL Server’s _Quali_ database.
+  ![Image][3]
+
+__To rename the HHD attribute:__
+
+1. On CloudShell’s SQL Server machine (usually hosted on the Quali Server machine), open SQL Server Management Studio.
+![Image][4]
+
+2. Connect to database.
+<br>![Image][5]
+
+3. Navigate to __Databases > Quali__. Right-click and select __New Query__.
+![Image][6]
+
+4. In the SQLQuery window, paste the following requests:
+
+```
+update AttributeInfo set Name = 'VMware vCenter Cloud Provider 2G.vCenter VM From VM 2G.HDD' where (Name = 'VMware vCenter Cloud Provider 2G.vCenter VM From VM 2G.HHD');
+```
+
+```
+update AttributeInfo set Name = 'VMware vCenter Cloud Provider 2G.vCenter VM From Template 2G.HDD' where (Name = 'VMware vCenter Cloud Provider 2G.vCenter VM From Template 2G.HHD');
+```
+
+```
+update AttributeInfo set Name = 'VMware vCenter Cloud Provider 2G.vCenter VM From Image 2G.HDD' where (Name = 'VMware vCenter Cloud Provider 2G.vCenter VM From Image 2G.HHD');
+```
+
+```
+update AttributeInfo set Name = 'VMware vCenter Cloud Provider 2G.vCenter VM From Linked Clone 2G.HDD' where (Name = 'VMware vCenter Cloud Provider 2G.vCenter VM From Linked Clone 2G.HHD');
+```
+
+   For example:
+   <br>![Image][7]
+
+5. Click __Execute__.
+<br>The following output should be displayed:
+![Image][8]
+
+6. To verify, go to CloudShell Portal’s __Manage>Apps__ page. Open an App template that uses a vCenter 2G Shell resource. Make sure the vCenter 2G deployment types include the __HDD__ attribute:
+![Image][9]
 
 # References
 To download and share integrations, see [Quali Community's Integrations](https://community.quali.com/integrations). 
@@ -231,3 +303,10 @@ For release updates, see the shell's [GitHub releases page](https://github.com/Q
 
 [1]: https://github.com/QualiSystems/cloudshell-shells-documentaion-templates/blob/master/cloudshell_logo.png
 [2]: https://github.com/QualiSystems/cloudshell-shells-documentaion-templates/blob/master/create_a_resource_device.png
+[3]: https://github.com/QualiSystems/cloudshell-shells-documentaion-templates/blob/master/vCenter%20App%20HHD.png
+[4]: https://github.com/QualiSystems/cloudshell-shells-documentaion-templates/blob/master/SQL%20Studio%20Link.png
+[5]: https://github.com/QualiSystems/cloudshell-shells-documentaion-templates/blob/master/SQL%20Connect%20database.jpg
+[6]: https://github.com/QualiSystems/cloudshell-shells-documentaion-templates/blob/master/SQL%20New%20Query.png
+[7]: https://github.com/QualiSystems/cloudshell-shells-documentaion-templates/blob/master/SQL%20Request.png
+[8]: https://github.com/QualiSystems/cloudshell-shells-documentaion-templates/blob/master/SQL%20Result.png
+[9]: https://github.com/QualiSystems/cloudshell-shells-documentaion-templates/blob/master/vCenter%20App%20HDD.png
